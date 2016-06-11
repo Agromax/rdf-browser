@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">RDFBrowser</string>
+    <string name="welcome_message">Welcome, this is an RDF triples browser. Following actions are available</string>
+    <string name="browse_button_text">Browse</string>
+    <string name="download_vocabulary_button_text">Download Vocabulary</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="vocabulary_file_name">vocab.xml</string>
+    <string name="vocabulary_not_found">Vocabulary not found in the file system. Please download it first.</string>
+    <string name="vocabulary_download_url">http://192.168.1.10/vocab/index.xml</string>
+    <string name="vocabulary_download_complete_msg">Vocabulary has been downloaded</string>
+    <string name="vocabulary_download_failed">Vocabulary could not be downloaded</string>
+
+    <string name="browser_option_rdf_view_button_text">View RDF</string>
+    <string name="browser_hierarchy_button_text">Hierarchy</string>
+</resources>
