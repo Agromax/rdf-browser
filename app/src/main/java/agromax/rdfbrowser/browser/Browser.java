@@ -1,5 +1,6 @@
 package agromax.rdfbrowser.browser;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -40,23 +41,29 @@ public class Browser extends AppCompatActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
+        final Browser self = this;
 
-        if (!loadVocabulary()) {
-            SimpleAlertDialog alert = new SimpleAlertDialog();
-            Bundle msg = new Bundle();
-            msg.putString("message", getString(R.string.vocabulary_not_found));
-            alert.setArguments(msg);
-            alert.show(getFragmentManager(), "AlertDialogFragment");
-        } else {
-            state = new BrowserActivityState(vocabulary, this, findViewById(R.id.action_view), findViewById(R.id.browser_list_view));
-        }
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                return loadVocabulary();
+            }
 
-        setupFiltering();
-        setupOptions();
-        if (state != null) {
-            state.renderState();
-        }
-        hierarchyButtonHandler();
+            @Override
+            protected void onPostExecute(Boolean vocabLoaded) {
+                if (!vocabLoaded) {
+                    SimpleAlertDialog.launchAlertBox(getString(R.string.vocabulary_not_found), getFragmentManager());
+                } else {
+                    state = new BrowserActivityState(vocabulary, self, findViewById(R.id.action_view), findViewById(R.id.browser_list_view));
+                }
+                if (state != null) {
+                    state.renderState();
+                    setupFiltering();
+                    setupOptions();
+                    hierarchyButtonHandler();
+                }
+            }
+        }.execute();
     }
 
 
