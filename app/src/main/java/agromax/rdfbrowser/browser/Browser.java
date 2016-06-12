@@ -94,7 +94,7 @@ public class Browser extends AppCompatActivity {
 
     private void filter(String constraint) {
         if (state != null) {
-            ArrayList<String> res = state.query(constraint);
+            ArrayList<String> res = state.filterQuery(constraint);
             options.clear();
             options.addAll(res);
             System.out.println(options);
@@ -111,20 +111,6 @@ public class Browser extends AppCompatActivity {
     }
 
     private void hierarchyButtonHandler() {
-        /*final Browser self = this;
-        Button button = (Button) findViewById(R.id.hierarchy_button);
-        if (button != null) {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String ch = state.getCurrentHierarchy();
-                    if (ch.isEmpty()) {
-                        ch = "You are at the root";
-                    }
-                    SimpleAlertDialog.launchAlertBox(ch, self.getFragmentManager());
-                }
-            });
-        }*/
         final HorizontalScrollView hsv = (HorizontalScrollView) findViewById(R.id.hierarchy_scroll_view);
         hsv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override

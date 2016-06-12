@@ -1,6 +1,8 @@
 package agromax.rdfbrowser.browser;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +26,9 @@ public class BrowserActivityState {
     private final View optionsView;
     private final View actionView;
 
+
+    private ArrayList<String> currentOptions = new ArrayList<>();
+
     public BrowserActivityState(@NonNull Vocabulary vocabulary, @NonNull Context context, @NonNull View actionView, @NonNull View optionsView) {
         this.vocabulary = vocabulary;
         this.context = context;
@@ -39,6 +44,16 @@ public class BrowserActivityState {
         return vocabulary.query(getPath(), part);
     }
 
+    public ArrayList<String> filterQuery(String constraint) {
+        ArrayList<String> filtered = new ArrayList<>();
+        for (String s : currentOptions) {
+            if (s != null && s.contains(constraint)) {
+                filtered.add(s);
+            }
+        }
+        return filtered;
+    }
+
     private String getPath() {
         StringBuilder path = new StringBuilder();
         for (String pe : queryState) {
@@ -48,34 +63,57 @@ public class BrowserActivityState {
     }
 
     public boolean moveUp() {
+        ProgressDialog progressDialog = ProgressDialog.show(context, "", "Loading...");
+
         if (queryState.size() > 0) {
             queryState.removeLast();
             renderState();
+            progressDialog.dismiss();
             return true;
         }
+        progressDialog.dismiss();
         return false;
     }
 
-    public void moveDown(String tag) {
+    public void moveDown(final String tag) {
+
+        ProgressDialog progressDialog = ProgressDialog.show(context, "", "Loading...");
+
         queryState.add(tag);
         renderState();
+
+        progressDialog.dismiss();
     }
 
     public void renderState() {
+        new AsyncTask<Void, Void, Void>() {
+            private ArrayList<String> res = null;
 
-        // Clear the search box
-        EditText search = (EditText) actionView.findViewById(R.id.search_options);
-        search.setText("");
+            @Override
+            protected Void doInBackground(Void... params) {
+                res = query("");
+                return null;
+            }
 
-        // Change the title
-        populateHierarchy();
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                // Clear the search box
+                EditText search = (EditText) actionView.findViewById(R.id.search_options);
+                search.setText("");
 
-        // Populate the options
-        ArrayList<String> res = query("");
-        ListView listView = (ListView) optionsView.findViewById(R.id.browser_list_view);
-        OptionsAdapter adapter = (OptionsAdapter) listView.getAdapter();
-        adapter.resetData(res);
-        adapter.notifyDataSetChanged();
+                // Change the title
+                populateHierarchy();
+
+                // Populate the options
+                ListView listView = (ListView) optionsView.findViewById(R.id.browser_list_view);
+                OptionsAdapter adapter = (OptionsAdapter) listView.getAdapter();
+                adapter.resetData(res);
+                adapter.notifyDataSetChanged();
+
+                currentOptions.clear();
+                currentOptions.addAll(res);
+            }
+        }.execute();
     }
 
     private void populateHierarchy() {
