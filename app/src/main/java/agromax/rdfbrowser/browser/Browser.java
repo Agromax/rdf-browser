@@ -1,13 +1,14 @@
 package agromax.rdfbrowser.browser;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -32,7 +33,12 @@ public class Browser extends AppCompatActivity {
         setContentView(R.layout.activity_browser);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.browser_toolbar);
+        myToolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(myToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
 
 
         if (!loadVocabulary()) {
@@ -105,7 +111,7 @@ public class Browser extends AppCompatActivity {
     }
 
     private void hierarchyButtonHandler() {
-        final Browser self = this;
+        /*final Browser self = this;
         Button button = (Button) findViewById(R.id.hierarchy_button);
         if (button != null) {
             button.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +124,13 @@ public class Browser extends AppCompatActivity {
                     SimpleAlertDialog.launchAlertBox(ch, self.getFragmentManager());
                 }
             });
-        }
+        }*/
+        final HorizontalScrollView hsv = (HorizontalScrollView) findViewById(R.id.hierarchy_scroll_view);
+        hsv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                hsv.fullScroll(View.FOCUS_RIGHT);
+            }
+        });
     }
 }

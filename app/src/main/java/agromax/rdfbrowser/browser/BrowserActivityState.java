@@ -3,9 +3,10 @@ package agromax.rdfbrowser.browser;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -67,12 +68,7 @@ public class BrowserActivityState {
         search.setText("");
 
         // Change the title
-        TextView title = (TextView) actionView.findViewById(R.id.browser_title);
-        if (queryState.size() > 0) {
-            title.setText(queryState.getLast());
-        } else {
-            title.setText("Vocabulary");
-        }
+        populateHierarchy();
 
         // Populate the options
         ArrayList<String> res = query("");
@@ -80,6 +76,25 @@ public class BrowserActivityState {
         OptionsAdapter adapter = (OptionsAdapter) listView.getAdapter();
         adapter.resetData(res);
         adapter.notifyDataSetChanged();
+    }
+
+    private void populateHierarchy() {
+        LinearLayout hierarchy = (LinearLayout) actionView.findViewById(R.id.hierarchy_view);
+        hierarchy.removeAllViews();
+
+        for (String s : queryState) {
+            Button term = new Button(context);
+            term.setAllCaps(false);
+            term.setText(s);
+            hierarchy.addView(term);
+        }
+
+        if (queryState.isEmpty()) {
+            Button term = new Button(context);
+            term.setText("Vocabulary");
+            term.setAllCaps(false);
+            hierarchy.addView(term);
+        }
     }
 
     public String getCurrentHierarchy() {

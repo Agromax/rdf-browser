@@ -24,26 +24,21 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <HorizontalScrollView
+                android:id="@+id/hierarchy_scroll_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/browser_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/hierarchy_button"
+                <LinearLayout
+                    android:id="@+id/hierarchy_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/browser_hierarchy_button_text"
-                    android:textAllCaps="false" />
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
