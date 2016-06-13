@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import agromax.rdfbrowser.R;
 import agromax.rdfbrowser.util.Downloader;
@@ -46,7 +48,7 @@ public class VocabManager {
         return null;
     }
 
-    public static void downloadVocabulary(@NonNull final Context context) {
+    public static void downloadVocabulary(@NonNull final Context context, final String url) {
         Activity a = null;
         try {
             a = (Activity) context;
@@ -61,7 +63,13 @@ public class VocabManager {
 
             @Override
             protected String doInBackground(Void... params) {
-                return Downloader.download(context.getString(R.string.vocabulary_download_url));
+                try {
+                    new URI(url);
+                    return Downloader.download(url);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                    return Downloader.download(context.getString(R.string.vocabulary_download_url));
+                }
             }
 
             @Override

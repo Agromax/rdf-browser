@@ -13,4 +13,9 @@
 
     <string name="browser_option_rdf_view_button_text">View RDF</string>
     <string name="browser_hierarchy_button_text">Hierarchy</string>
+
+    <string name="main_toolbar_title">Browser</string>
+    <string name="vocab_dialog_hint">Please type in the URL</string>
+
+    <string name="vocab_dialog_download_button_text">Download</string>
 </resources>
