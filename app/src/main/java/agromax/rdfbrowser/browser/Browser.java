@@ -1,5 +1,6 @@
 package agromax.rdfbrowser.browser;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ListView;
@@ -15,6 +17,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import agromax.rdfbrowser.R;
+import agromax.rdfbrowser.rdfviewer.RDFViewer;
 import agromax.rdfbrowser.util.SimpleAlertDialog;
 import agromax.rdfbrowser.vocabulary.VocabManager;
 import agromax.rdfbrowser.vocabulary.Vocabulary;

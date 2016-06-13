@@ -16,6 +16,7 @@
 
     <string name="main_toolbar_title">Browser</string>
     <string name="vocab_dialog_hint">Please type in the URL</string>
-
     <string name="vocab_dialog_download_button_text">Download</string>
+
+    <string name="rdf_viewer_title">RDF Triple</string>
 </resources>

@@ -1,6 +1,7 @@
 package agromax.rdfbrowser.browser;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import agromax.rdfbrowser.R;
+import agromax.rdfbrowser.rdfviewer.RDFViewer;
 import agromax.rdfbrowser.util.XMLUtil;
 
 /**
@@ -56,7 +58,7 @@ public class OptionsAdapter extends BaseAdapter {
         if (view == null) {
             view = inflater.inflate(R.layout.browser_option_layout, null);
         }
-        Button content = (Button) view.findViewById(R.id.browser_option_text);
+        final Button content = (Button) view.findViewById(R.id.browser_option_text);
         content.setText(data.get(position));
         content.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +67,14 @@ public class OptionsAdapter extends BaseAdapter {
             }
         });
 
+        Button viewRDF = (Button) view.findViewById(R.id.view_rdf_button);
+        viewRDF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RDFViewer.class);
+                context.startActivity(intent);
+            }
+        });
         return view;
     }
 }
